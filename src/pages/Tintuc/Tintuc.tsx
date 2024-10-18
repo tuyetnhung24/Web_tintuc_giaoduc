@@ -1,15 +1,17 @@
-import React from 'react';
+import React from 'react'
+import Footer from '../Footer'
+import Navbar from '../Navbar'
+import Header from '../Header'
+import Banner from '../Banner'
 
-const EducationNewsPage = () => {
+const Tintuc = () => {
   return (
+    <>
+    <Navbar/>
+    <Header/>
+    <Banner/>
     <div className="container my-4">
-      {/* Tiêu đề trang */}
-      <div className="mb-4 text-center">
-        <h1 className="display-4">Giáo dục</h1>
-        <p className="lead text-muted">
-          Cập nhật những tin tức mới nhất về giáo dục từ VNExpress
-        </p>
-      </div>
+      
 
       <div className="news-container">
       {/* Main content */}
@@ -112,7 +114,9 @@ const EducationNewsPage = () => {
       </div>
     </div>
     </div>
-  );
-};
+    <Footer/>
+    </>
+  )
+}
 
-export default EducationNewsPage;
+export default Tintuc

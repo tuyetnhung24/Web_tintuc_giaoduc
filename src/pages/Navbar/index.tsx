@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 // API key từ OpenWeatherMap (bạn cần đăng ký tại https://openweathermap.org/api)
 const API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY';
@@ -99,9 +100,11 @@ const Navbar = () => {
           </div>
 
           {/* Đăng nhập */}
-          <a href="#login" className="mx-3 text-muted text-decoration-none">
+          <Link to='/login'>
+          <a className="mx-3 text-muted text-decoration-none">
             <FontAwesomeIcon icon={faUser} /> Đăng nhập
           </a>
+          </Link>
         </nav>
       </div>
     </header>

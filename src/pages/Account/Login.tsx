@@ -1,28 +1,49 @@
 import React, { useState } from 'react';
-import { Button, Input, Checkbox, Divider } from 'antd';
+import { Button, Input, Checkbox, message } from 'antd';
 import { MailOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'; // Sử dụng useNavigate để điều hướng
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+
+  const navigate = useNavigate(); // Khởi tạo useNavigate để sử dụng cho việc điều hướng
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleLogin = () => {
-    // Xử lý logic khi người dùng nhấn nút "Login"
+    // Reset lỗi
+    setEmailError('');
+    setPasswordError('');
+
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      setEmailError('Tài khoản không tồn tại.');
+      return;
+    }
+
+    const { email: storedEmail, password: storedPassword } = JSON.parse(storedUser);
+
+    if (email !== storedEmail) {
+      setEmailError('Email không đúng.');
+    } else if (password !== storedPassword) {
+      setPasswordError('Mật khẩu không đúng.');
+    } else {
+      message.success('Đăng nhập thành công!');
+      navigate('/'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
+    }
   };
 
   return (
     <div className="login-container">
       <h2>Đăng nhập</h2>
 
-      {/* <Button icon={<FaGoogle />} className="social-btn" block>
-        Login with Google
-      </Button>
-      <Button icon={<FaFacebookF />} className="social-btn" block>
-        Login with Facebook
-      </Button>
-
-      <Divider>Hoặc</Divider> */}
       <br />
 
       <Input
@@ -33,6 +54,7 @@ const Login: React.FC = () => {
         onChange={(e) => setEmail(e.target.value)}
         className="input-field"
       />
+      {emailError && <div className="error-message" style={{color: "red", textAlign: "left"}}>{emailError}</div>} {/* Hiển thị lỗi email */}
 
       <Input.Password
         size="large"
@@ -43,6 +65,7 @@ const Login: React.FC = () => {
         onChange={(e) => setPassword(e.target.value)}
         className="input-field"
       />
+      {passwordError && <div className="error-message" style={{color: "red", textAlign: "left"}}>{passwordError}</div>} {/* Hiển thị lỗi mật khẩu */}
 
       <div className="remember-section">
         <Checkbox
@@ -70,6 +93,7 @@ const Login: React.FC = () => {
       <div className="footer">
         <span>Chưa có tài khoản? <a href="/register">Đăng Ký</a></span>
       </div>
+
     </div>
   );
 };
